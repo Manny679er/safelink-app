@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SafeLink Security Dashboard</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 450px;
+            margin: auto;
+            background: #111827;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        h1 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 85%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 90%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #38bdf8;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .good { color: #22c55e; }
+        .mid { color: #facc15; }
+        .bad { color: #ef4444; }
+
+        .score {
+            font-size: 26px;
+            margin-top: 10px;
+        }
+
+        .label {
+            font-size: 18px;
+            margin-top: 5px;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🔐 SafeLink Security Scanner</h1>
+
+    <form method="POST">
+        <input type="text" name="url" placeholder="Enter website URL">
+        <button type="submit">Scan Website</button>
+    </form>
+
+    {% if result %}
+
+    <div class="result">
+
+        <p><b>SSL:</b> {{ result.ssl }}</p>
+        <p><b>Status:</b> {{ result.status }}</p>
+        <p><b>Speed:</b> {{ result.speed }}</p>
+        <p><b>Server:</b> {{ result.server }}</p>
+
+        <h2>Score: {{ result.score }}/100</h2>
+        <h3>{{ result.label }}</h3>
+
+        <p><b>SSL:</b> {{ result.ssl }}</p>
+        <p><b>Status:</b> {{ result.status }}</p>
+
+        <div class="score">
+            Score: {{ result.score }}/100
+        </div>
+
+        <div class="label">
+            {{ result.label }}
+        </div>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>
