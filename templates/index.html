@@ -2,18 +2,16 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🛡 ShieldScan
-Cybersecurity Risk Intelligence</title>
+    <title>ShieldScan</title>
 
     <style>
         body {
             font-family: Arial;
-            margin: 0;
-            padding: 20px;
-            background: #0f172a;
+            background: #0b1220;
             color: white;
             display: flex;
             justify-content: center;
+            padding: 20px;
         }
 
         .container {
@@ -25,8 +23,14 @@ Cybersecurity Risk Intelligence</title>
         }
 
         h1 {
-            font-size: 20px;
-            text-align: center;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 15px;
         }
 
         input {
@@ -34,29 +38,33 @@ Cybersecurity Risk Intelligence</title>
             padding: 12px;
             border-radius: 8px;
             border: none;
-            margin-top: 10px;
+            margin-bottom: 10px;
         }
 
         button {
             width: 100%;
             padding: 12px;
-            margin-top: 10px;
+            background: #38bdf8;
             border: none;
             border-radius: 8px;
-            background: #38bdf8;
             font-weight: bold;
         }
 
         .card {
-            margin-top: 20px;
+            margin-top: 15px;
             padding: 15px;
             background: #1f2937;
             border-radius: 10px;
         }
 
         .safe { color: #22c55e; }
-        .medium { color: #facc15; }
+        .mid { color: #facc15; }
         .danger { color: #ef4444; }
+
+        .small {
+            font-size: 12px;
+            color: #94a3b8;
+        }
     </style>
 </head>
 
@@ -64,7 +72,8 @@ Cybersecurity Risk Intelligence</title>
 
 <div class="container">
 
-    <h1>🔐 SafeLink Scanner</h1>
+    <h1>🛡 ShieldScan</h1>
+    <div class="subtitle">Cybersecurity Risk Intelligence Tool</div>
 
     <form method="POST">
         <input type="text" name="url" placeholder="Enter website URL">
@@ -80,10 +89,13 @@ Cybersecurity Risk Intelligence</title>
         <p><b>Speed:</b> {{ result.speed }}</p>
         <p><b>Server:</b> {{ result.server }}</p>
 
+        <p class="small"><b>Threat Check:</b> {{ result.threat }}</p>
+
         <h2>Score: {{ result.score }}/100</h2>
+
         <h3 class="
             {% if result.score >= 80 %}safe
-            {% elif result.score >= 50 %}medium
+            {% elif result.score >= 50 %}mid
             {% else %}danger
             {% endif %}
         ">
