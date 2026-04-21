@@ -11,16 +11,24 @@ def analyze_website(url):
     if not url.startswith("http"):
         url = "http://" + url
 
+    # 🚨 Suspicious keyword detection (NEW)
+    suspicious_words = ["login", "verify", "secure", "update", "password", "account"]
+
+    if any(word in url.lower() for word in suspicious_words):
+        score -= 20
+        result["threat"] = "⚠️ Suspicious URL pattern detected"
+    else:
+        result["threat"] = "No obvious threats detected"
+
     start = time.time()
 
     try:
         response = requests.get(url, timeout=5)
         load_time = time.time() - start
 
-        # STATUS CHECK
-        result["status"] = f"Website reachable ✅ ({response.status_code})"
+        result["status"] = f"Reachable ✅ ({response.status_code})"
 
-        # SPEED SCORE
+        # Speed scoring
         if load_time < 1:
             score += 30
             result["speed"] = "⚡ Fast response"
@@ -28,9 +36,9 @@ def analyze_website(url):
             score += 10
             result["speed"] = "🐢 Slow response"
 
-        # SERVER INFO (advanced signal)
+        # Server detection
         server = response.headers.get("Server", "Unknown")
-        result["server"] = f"Server: {server}"
+        result["server"] = server
 
         if "cloudflare" in server.lower():
             score += 20
@@ -38,24 +46,24 @@ def analyze_website(url):
             score += 10
 
     except:
-        result["status"] = "Website NOT reachable ❌"
+        result["status"] = "❌ Not reachable"
         result["speed"] = "No response"
         result["server"] = "Unknown"
         score -= 30
 
-    # SSL CHECK
+    # SSL check
     if url.startswith("https://"):
         score += 40
-        result["ssl"] = "🔐 HTTPS enabled"
+        result["ssl"] = "🔐 Secure HTTPS"
     else:
         score += 10
         result["ssl"] = "⚠️ HTTP only"
 
-    # FINAL SCORE
+    # Final score
     score = max(0, min(score, 100))
     result["score"] = score
 
-    # RISK LABEL
+    # Risk label
     if score >= 80:
         result["label"] = "🟢 SAFE"
     elif score >= 50:
@@ -78,8 +86,4 @@ def home():
 
 
 if __name__ == "__main__":
-    import os
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
